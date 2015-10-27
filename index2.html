@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Home</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/themes/default/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+      
+    </head>
+    <body>
+        <section data-role="page" id="list">
+            <header data-role="header">
+                <h2>Branch List</h2>
+            </header>
+            <div data-role="content"> 
+                <ul data-role="listview" data-inset="true" id="lv1" data-filter="true">
+                    <li><a>hello</a></li>
+                </ul>                 
+                 <form class="ui-filterable">
+                    <input id="autoc-input" data-type="search">
+                </form>               
+                <ul data-role="listview" data-filter="true"
+                    data-filter-reveal="true" data-input="#autoc-input"
+                    data-inset="true">
+                    <li><a>กทม</a></li>
+                    <li><a>นนทบุรี</a></li>
+                    <li><a>เลย</a></li>
+                    <li><a>กระบี่</a></li>
+                    <li><a>นครนายก</a></li>
+                </ul>
+            </div>
+</section>
+        <script type="text/javascript">
+            //var BService_url="http://172.18.27.1:8080/baac_services/branch_list.php";
+            var BService_url="http://172.18.27.11:8080/gim2mickPHP/branch_list.php";
+            var branchs;
+            $("#list").on("pageinit",function (){
+                $("#lv1 li").remove();
+            });
+            $("#list").on("pagebeforeshow",function (){
+                $.getJSON(BService_url,function(data){
+                    $("#lv1 li").remove();
+                    branchs=data.items;
+                    $.each(branchs,function (index,branch){
+                        $("#lv1").append("<li><a>"+branch.branch_name+"</a></li>");
+                    });
+                    $("#lv1").listview("refresh");
+                });
+            }); 
+            </script>
+  </body>
+</html>
